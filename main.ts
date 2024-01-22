@@ -1,3 +1,17 @@
+namespace SpriteKind {
+    export const coins = SpriteKind.create()
+}
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    mySprite.setPosition(randint(120, 100), randint(180, 70))
+})
+sprites.onDestroyed(SpriteKind.coins, function (sprite) {
+    points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
+    info.changeScoreBy(1)
+})
+let points: Sprite = null
+let mySprite: Sprite = null
+info.startCountdown(30)
+info.setLife(3)
 scene.setBackgroundImage(img`
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -121,7 +135,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     ........................
     ........................
     ...........ccc..........
@@ -147,5 +161,16 @@ let mySprite = sprites.create(img`
     ......cccdd333dcccccc...
     ........cccccccc........
     `, SpriteKind.Player)
+points = sprites.create(img`
+    . . . b b . . . 
+    . . b 5 5 b . . 
+    . b 5 1 d 5 b . 
+    . b 5 1 3 5 b . 
+    . c d 1 3 5 c . 
+    . . f d 1 f . . 
+    . . . f f . . . 
+    . . . . . . . . 
+    `, SpriteKind.coins)
 controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
+game.showLongText("Collect many coins before time runs out!!!Careful not to fall", DialogLayout.Center)
