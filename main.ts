@@ -1,16 +1,44 @@
 namespace SpriteKind {
     export const coins = SpriteKind.create()
 }
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    tiles.placeOnTile(player1, tiles.getTileLocation(0, 11))
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coins, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     sprites.destroyAllSpritesOfKind(SpriteKind.coins)
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    player1 = sprites.create(img`
+        ........................
+        ........................
+        ...........ccc..........
+        ...........cccc.........
+        .......ccc..ccccccc.....
+        .......cccccc333333cc...
+        ........ccb3333333333c..
+        .....cc..b333333333333c.
+        .....cccb333333ff133333c
+        ......cb33333333ff33d33c
+        ......b3333333333333333c
+        ...cc.b333dd3333bb12bbc.
+        ...cccd33ddddd333b2223c.
+        .....bdddddddddd33b223c.
+        ..cccdddddb33bbddd3333c.
+        ..cccdddddb333bbbbcccc..
+        ...ccddddddb3333cbcdc...
+        ccccbdddddd3cb33cbcc....
+        cddddddddd3333ccbbc.....
+        .cddddddbdd333bbbcc.....
+        ..ccdddbbbdd33cbcdc.....
+        ....ccbbcbddddccdddcc...
+        ......cccdd333dcccccc...
+        ........cccccccc........
+        `, SpriteKind.Player)
+})
 sprites.onDestroyed(SpriteKind.coins, function (sprite) {
     points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
     info.changeScoreBy(1)
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.builtin.brick, function (sprite, location) {
-    tiles.placeOnTile(player1, tiles.getTileLocation(5, 3))
 })
 controller.player2.onEvent(ControllerEvent.Connected, function () {
     player2 = sprites.create(img`
@@ -41,11 +69,12 @@ controller.player2.onEvent(ControllerEvent.Connected, function () {
         `, SpriteKind.Player)
     controller.player2.moveSprite(player2)
     scene.cameraFollowSprite(player2)
+    tiles.placeOnTile(player2, tiles.getTileLocation(0, 11))
 })
 let player2: Sprite = null
 let points: Sprite = null
 let player1: Sprite = null
-info.startCountdown(30)
+info.startCountdown(60)
 info.setLife(3)
 info.setScore(0)
 scene.setBackgroundImage(img`
@@ -197,6 +226,7 @@ player1 = sprites.create(img`
     ......cccdd333dcccccc...
     ........cccccccc........
     `, SpriteKind.Player)
+tiles.placeOnTile(player1, tiles.getTileLocation(0, 11))
 points = sprites.create(img`
     . . . b b . . . 
     . . b 5 5 b . . 
@@ -210,3 +240,6 @@ points = sprites.create(img`
 controller.moveSprite(player1)
 scene.cameraFollowSprite(player1)
 game.showLongText("Collect many coins before time runs out!!!Careful not to fall", DialogLayout.Center)
+game.onUpdateInterval(5000, function () {
+    points.setPosition(randint(0, scene.screenWidth()), randint(0, scene.screenHeight()))
+})
