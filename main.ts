@@ -1,16 +1,15 @@
 namespace SpriteKind {
     export const coins = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.coins, function (sprite, otherSprite) {
-    info.changeScoreBy(1)
-    sprites.destroyAllSpritesOfKind(SpriteKind.coins)
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    player1.setPosition(randint(120, 100), randint(180, 70))
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+	
 })
 sprites.onDestroyed(SpriteKind.coins, function (sprite) {
     points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
     info.changeScoreBy(1)
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.builtin.brick, function (sprite, location) {
-    tiles.placeOnTile(player1, tiles.getTileLocation(5, 3))
 })
 controller.player2.onEvent(ControllerEvent.Connected, function () {
     player2 = sprites.create(img`
@@ -47,7 +46,6 @@ let points: Sprite = null
 let player1: Sprite = null
 info.startCountdown(30)
 info.setLife(3)
-info.setScore(0)
 scene.setBackgroundImage(img`
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
