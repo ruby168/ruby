@@ -2,14 +2,14 @@ namespace SpriteKind {
     export const coins = SpriteKind.create()
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
-    mySprite.setPosition(randint(120, 100), randint(180, 70))
+    player1.setPosition(randint(120, 100), randint(180, 70))
 })
 sprites.onDestroyed(SpriteKind.coins, function (sprite) {
     points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
     info.changeScoreBy(1)
 })
 let points: Sprite = null
-let mySprite: Sprite = null
+let player1: Sprite = null
 info.startCountdown(30)
 info.setLife(3)
 scene.setBackgroundImage(img`
@@ -135,7 +135,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-mySprite = sprites.create(img`
+player1 = sprites.create(img`
     ........................
     ........................
     ...........ccc..........
@@ -161,6 +161,32 @@ mySprite = sprites.create(img`
     ......cccdd333dcccccc...
     ........cccccccc........
     `, SpriteKind.Player)
+let player2 = sprites.create(img`
+    ........................
+    ........................
+    ...........ccc..........
+    ...........cccc.........
+    .......ccc..ccccccc.....
+    .......cccccc888888cc...
+    ........ccb8888888888c..
+    .....cc..b888888888888c.
+    .....cccb888888ff188888c
+    ......cb88888888ff88d88c
+    ......b8888888888888888c
+    ...cc.b888dd8888bb13bbc.
+    ...cccd88ddddd888b3338c.
+    .....bdddddddddd88b338c.
+    ..cccdddddb88bbddd8888c.
+    ..cccdddddb888bbbbcccc..
+    ...ccddddddb8888cbcdc...
+    ccccbdddddd8cb88cbcc....
+    cddddddddd8888ccbbc.....
+    .cddddddbdd888bbbcc.....
+    ..ccdddbbbdd88cbcdc.....
+    ....ccbbcbddddccdddcc...
+    ......cccdd888dcccccc...
+    ........cccccccc........
+    `, SpriteKind.Player)
 points = sprites.create(img`
     . . . b b . . . 
     . . b 5 5 b . . 
@@ -171,6 +197,7 @@ points = sprites.create(img`
     . . . f f . . . 
     . . . . . . . . 
     `, SpriteKind.coins)
-controller.moveSprite(mySprite)
-scene.cameraFollowSprite(mySprite)
+controller.moveSprite(player1)
+controller.moveSprite(player2)
+scene.cameraFollowSprite(player1)
 game.showLongText("Collect many coins before time runs out!!!Careful not to fall", DialogLayout.Center)
