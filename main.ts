@@ -38,7 +38,7 @@ controller.player2.onEvent(ControllerEvent.Connected, function () {
         ......cccdd888dcccccc...
         ........cccccccc........
         `, SpriteKind.Player)
-    controller.moveSprite(player2)
+    controller.player2.moveSprite(player2)
     scene.cameraFollowSprite(player2)
 })
 let player2: Sprite = null
