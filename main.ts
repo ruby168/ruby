@@ -1,17 +1,89 @@
 namespace SpriteKind {
     export const coins = SpriteKind.create()
 }
-scene.onHitWall(SpriteKind.Player, function (sprite, location) {
-    mySprite.setPosition(randint(120, 100), randint(180, 70))
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
+    game.setGameOverEffect(true, effects.confetti)
 })
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    tiles.placeOnTile(player1, tiles.getTileLocation(1, 11))
+    info.changeLifeBy(-1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.coins, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    sprites.destroyAllSpritesOfKind(SpriteKind.coins)
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    player1 = sprites.create(img`
+        ........................
+        ........................
+        ...........ccc..........
+        ...........cccc.........
+        .......ccc..ccccccc.....
+        .......cccccc333333cc...
+        ........ccb3333333333c..
+        .....cc..b333333333333c.
+        .....cccb333333ff133333c
+        ......cb33333333ff33d33c
+        ......b3333333333333333c
+        ...cc.b333dd3333bb12bbc.
+        ...cccd33ddddd333b2223c.
+        .....bdddddddddd33b223c.
+        ..cccdddddb33bbddd3333c.
+        ..cccdddddb333bbbbcccc..
+        ...ccddddddb3333cbcdc...
+        ccccbdddddd3cb33cbcc....
+        cddddddddd3333ccbbc.....
+        .cddddddbdd333bbbcc.....
+        ..ccdddbbbdd33cbcdc.....
+        ....ccbbcbddddccdddcc...
+        ......cccdd333dcccccc...
+        ........cccccccc........
+        `, SpriteKind.Player)
+})
+function pic1 () {
+	
+}
 sprites.onDestroyed(SpriteKind.coins, function (sprite) {
     points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
     info.changeScoreBy(1)
 })
+controller.player2.onEvent(ControllerEvent.Connected, function () {
+    player2 = sprites.create(img`
+        ........................
+        ........................
+        ...........ccc..........
+        ...........cccc.........
+        .......ccc..ccccccc.....
+        .......cccccc888888cc...
+        ........ccb8888888888c..
+        .....cc..b888888888888c.
+        .....cccb888888ff188888c
+        ......cb88888888ff88d88c
+        ......b8888888888888888c
+        ...cc.b888dd8888bb13bbc.
+        ...cccd88ddddd888b3338c.
+        .....bdddddddddd88b338c.
+        ..cccdddddb88bbddd8888c.
+        ..cccdddddb888bbbbcccc..
+        ...ccddddddb8888cbcdc...
+        ccccbdddddd8cb88cbcc....
+        cddddddddd8888ccbbc.....
+        .cddddddbdd888bbbcc.....
+        ..ccdddbbbdd88cbcdc.....
+        ....ccbbcbddddccdddcc...
+        ......cccdd888dcccccc...
+        ........cccccccc........
+        `, SpriteKind.Player)
+    controller.player2.moveSprite(player2)
+    scene.cameraFollowSprite(player2)
+    tiles.placeOnTile(player2, tiles.getTileLocation(0, 11))
+})
+let player2: Sprite = null
 let points: Sprite = null
-let mySprite: Sprite = null
-info.startCountdown(30)
+let player1: Sprite = null
+info.startCountdown(60)
 info.setLife(3)
+info.setScore(0)
 scene.setBackgroundImage(img`
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     5555555555555555555599999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -135,7 +207,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-mySprite = sprites.create(img`
+player1 = sprites.create(img`
     ........................
     ........................
     ...........ccc..........
@@ -161,6 +233,7 @@ mySprite = sprites.create(img`
     ......cccdd333dcccccc...
     ........cccccccc........
     `, SpriteKind.Player)
+tiles.placeOnTile(player1, tiles.getTileLocation(0, 11))
 points = sprites.create(img`
     . . . b b . . . 
     . . b 5 5 b . . 
@@ -171,6 +244,30 @@ points = sprites.create(img`
     . . . f f . . . 
     . . . . . . . . 
     `, SpriteKind.coins)
-controller.moveSprite(mySprite)
-scene.cameraFollowSprite(mySprite)
+controller.moveSprite(player1)
+scene.cameraFollowSprite(player1)
 game.showLongText("Collect many coins before time runs out!!!Careful not to fall", DialogLayout.Center)
+game.onUpdateInterval(5000, function () {
+    tiles.placeOnRandomTile(points, assets.tile`transparency16`)
+    for (let index = 0; index < 50; index++) {
+        points = sprites.create(img`
+            . . . b b . . . 
+            . . b 5 5 b . . 
+            . b 5 1 d 5 b . 
+            . b 5 1 3 5 b . 
+            . c d 1 3 5 c . 
+            . . f d 1 f . . 
+            . . . f f . . . 
+            . . . . . . . . 
+            `, SpriteKind.coins)
+    }
+})
+game.onUpdateInterval(5000, function () {
+    points.setPosition(randint(0, scene.screenWidth()), randint(0, scene.screenHeight()))
+})
+game.onUpdateInterval(5000, function () {
+    points.setPosition(randint(0, scene.screenWidth()), randint(0, scene.screenHeight()))
+})
+game.onUpdateInterval(5000, function () {
+    points.setPosition(randint(0, scene.screenWidth()), randint(0, scene.screenHeight()))
+})
