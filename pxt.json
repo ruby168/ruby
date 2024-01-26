@@ -2,8 +2,7 @@
     "name": "idk",
     "description": "",
     "dependencies": {
-        "device": "*",
-        "multiplayer": "*"
+        "device": "*"
     },
     "files": [
         "main.blocks",
@@ -23,5 +22,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "tsprj"
+    "preferredEditor": "blocksprj"
 }
