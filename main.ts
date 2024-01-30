@@ -11,14 +11,13 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coins, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    sprites.destroyAllSpritesOfKind(SpriteKind.coins, effects.hearts, 1000)
+    sprites.destroyAllSpritesOfKind(SpriteKind.coins, effects.hearts, 2000)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     doSomething2(list)
 })
 sprites.onDestroyed(SpriteKind.coins, function (sprite) {
     points.setPosition(Math.constrain(0, 80, 160), Math.constrain(0, 80, 160))
-    info.changeScoreBy(1)
 })
 function doSomething (list: Image[]) {
     player1 = sprites.create(list._pickRandom(), SpriteKind.Player)
