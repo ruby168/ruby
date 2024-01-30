@@ -11,7 +11,7 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coins, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    sprites.destroyAllSpritesOfKind(SpriteKind.coins, effects.hearts, 2000)
+    sprites.destroy(otherSprite, effects.hearts, 500)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     doSomething2(list)
@@ -21,7 +21,7 @@ sprites.onDestroyed(SpriteKind.coins, function (sprite) {
 })
 function doSomething (list: Image[]) {
     player1 = sprites.create(list._pickRandom(), SpriteKind.Player)
-    controller.moveSprite(player1)
+    controller.moveSprite(player1, 100, 100)
     scene.cameraFollowSprite(player1)
     tiles.placeOnTile(player1, tiles.getTileLocation(0, 11))
 }
@@ -354,12 +354,11 @@ points = sprites.create(img`
     . . . f f . . . 
     . . . . . . . . 
     `, SpriteKind.coins)
-game.showLongText("Collect many coins before time runs out!!!Careful not to fall", DialogLayout.Center)
+game.showLongText("Collect many coins before time runs out!!!Careful not to touch walls", DialogLayout.Center)
 doSomething(list)
 game.onUpdateInterval(5000, function () {
-    tiles.placeOnRandomTile(points, assets.tile`transparency16`)
-    for (let index = 0; index < 100; index++) {
-        points = sprites.create(img`
+    for (let index = 0; index < 5; index++) {
+        tiles.placeOnRandomTile(sprites.create(img`
             . . . b b . . . 
             . . b 5 5 b . . 
             . b 5 1 d 5 b . 
@@ -368,6 +367,6 @@ game.onUpdateInterval(5000, function () {
             . . f d 1 f . . 
             . . . f f . . . 
             . . . . . . . . 
-            `, SpriteKind.coins)
+            `, SpriteKind.coins), assets.tile`transparency16`)
     }
 })
