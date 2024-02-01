@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const coins = SpriteKind.create()
+    export const roses = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     game.gameOver(true)
@@ -21,7 +22,7 @@ sprites.onDestroyed(SpriteKind.coins, function (sprite) {
 })
 function doSomething (list: Image[]) {
     player1 = sprites.create(list._pickRandom(), SpriteKind.Player)
-    controller.moveSprite(player1, 100, 100)
+    controller.moveSprite(player1)
     scene.cameraFollowSprite(player1)
     tiles.placeOnTile(player1, tiles.getTileLocation(0, 11))
 }
@@ -36,6 +37,10 @@ function doSomething2 (list: Image[]) {
     controller.moveSprite(player2)
     scene.cameraFollowSprite(player2)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.roses, function (sprite, otherSprite) {
+    info.changeScoreBy(-1)
+    sprites.destroy(otherSprite, effects.bubbles, 500)
+})
 let player2: Sprite = null
 let player1: Sprite = null
 let points: Sprite = null
@@ -354,7 +359,7 @@ points = sprites.create(img`
     . . . f f . . . 
     . . . . . . . . 
     `, SpriteKind.coins)
-game.showLongText("Collect many coins before time runs out!!!Careful not to touch walls", DialogLayout.Center)
+game.showLongText("Collect many coins before time runs out!!!Careful not to touch walls nor roses", DialogLayout.Center)
 doSomething(list)
 game.onUpdateInterval(5000, function () {
     for (let index = 0; index < 5; index++) {
@@ -368,5 +373,27 @@ game.onUpdateInterval(5000, function () {
             . . . f f . . . 
             . . . . . . . . 
             `, SpriteKind.coins), assets.tile`transparency16`)
+    }
+})
+game.onUpdateInterval(5000, function () {
+    for (let index = 0; index < 3; index++) {
+        tiles.placeOnRandomTile(sprites.create(img`
+            . . . . . . . . 
+            . . . . . . . . 
+            . . . . . . . . 
+            . . c c c . . . 
+            . c c 1 2 c . . 
+            c c 2 2 f 2 c . 
+            c 2 c f 1 2 c . 
+            c 2 2 2 2 2 c . 
+            c 2 1 1 2 2 c . 
+            c 2 2 2 1 2 c . 
+            . c 2 2 2 c . . 
+            . . c 7 c . . . 
+            . . c c 6 6 6 c 
+            . . c 6 7 7 7 c 
+            . . 6 7 7 7 c . 
+            . . 6 6 6 c . . 
+            `, SpriteKind.roses), assets.tile`transparency16`)
     }
 })
