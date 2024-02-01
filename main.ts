@@ -34,13 +34,13 @@ controller.player2.onEvent(ControllerEvent.Connected, function () {
 })
 function doSomething2 (list: Image[]) {
     if (player1 == player2) {
-        player2 = sprites.create(list.pop(), SpriteKind.Player)
+        player1 = sprites.create(list.pop(), SpriteKind.Player)
     }
     player2 = sprites.create(list._pickRandom(), SpriteKind.Player)
     controller.moveSprite(player2)
     scene.cameraFollowSprite(player2)
-    while (player1 == player2) {
-        player1 = sprites.create(list._pickRandom(), SpriteKind.Player)
+    while (true) {
+        player2 = sprites.create(list._pickRandom(), SpriteKind.Player)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.roses, function (sprite, otherSprite) {
